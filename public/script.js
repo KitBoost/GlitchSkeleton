@@ -4,14 +4,14 @@
 console.log("hello world :o");
 
 // define variables that reference elements on our page
-const dreamsList = document.getElementById("ListContainer");
-const dreamsForm = document.querySelector("form");
+const TheList = document.getElementById("ListContainer");
+const TheForm = document.querySelector("form");
 
-// a helper function that creates a list item for a given dream
-function appendNewDream(dream) {
+// a helper function
+function appendNewItem(inItem) {
   const newListItem = document.createElement("li");
-  newListItem.innerText = dream;
-  dreamsList.appendChild(newListItem);
+  newListItem.innerText = inItem;
+  TheList.appendChild(newListItem);
 }
 
 // fetch the initial list
@@ -19,23 +19,22 @@ fetch("/thelist")
   .then(response => response.json()) // parse the JSON from the server
   .then(inParsedList => {
     // remove the loading text
-    dreamsList.firstElementChild.remove();
+    TheList.firstElementChild.remove();
 
-    // iterate through every dream and add it to our page
-    inParsedList.forEach(appendNewDream);
+    // iterate through every item and add it to our page
+    inParsedList.forEach(appendNewItem);
 
-    // listen for the form to be submitted and add a new dream when it is
-    dreamsForm.addEventListener("submit", event => {
+    // listen for the form to be submitted and add item when it is
+    TheForm.addEventListener("submit", event => {
       // stop our form submission from refreshing the page
       event.preventDefault();
 
-      // get dream value and add it to the list
-      let newDream = dreamsForm.elements.dream.value;
-      //inParsedList.push(newDream); // seems unnecessary
-      appendNewDream(newDream);
+      // get item value and add it to the list
+      let newItem = TheForm.elements.Suggestion.value;
+      appendNewItem(newItem);
 
       // reset form
-      dreamsForm.reset();
-      dreamsForm.elements.dream.focus();
+      TheForm.reset();
+      TheForm.elements.Suggestion.focus();
     });
   });
